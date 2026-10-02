@@ -1,4 +1,5 @@
 import React from 'react'
+import CustomButton from '../common/CustomButton'
 
 const Hero = () => {
   return (
@@ -23,7 +24,7 @@ const Hero = () => {
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate odio aliquid quisquam nemo, minima eum exercitationem aspernatur consequatur doloribus unde porro, iusto nisi inventore molestias natus illo at, excepturi quo!
             </p>
             
-            <button className='bg-orange-700 px-10 py-2 text-white text-lg rounded hover:cursor-pointer hover:bg-orange-800'>Register Now</button>
+            <CustomButton text="Register Now" link="/register" more="bg-red-600" />
           </div>
 
         </div>

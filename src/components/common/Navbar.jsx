@@ -1,4 +1,5 @@
 import React from 'react'
+import CustomButton from './CustomButton'
 
 const Navbar = () => {
   return (
@@ -16,7 +17,7 @@ const Navbar = () => {
                 <a href="/contact">Contact</a>
             </nav>
 
-            <button className='bg-orange-700 px-10 py-2 text-white text-lg rounded hover:cursor-pointer hover:bg-orange-800'>Log in</button>
+            <CustomButton text="Log in" link="/login" />
         </div>
     </header>
   )
