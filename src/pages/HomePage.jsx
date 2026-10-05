@@ -2,6 +2,8 @@ import React from 'react'
 import Navbar from '../components/common/Navbar'
 import Hero from '../components/homeComponents/Hero'
 import Features from '../components/homeComponents/Features'
+import AboutUs from '../components/homeComponents/AboutUs'
+import Reviews from '../components/homeComponents/Reviews'
 
 const HomePage = () => {
   return (
@@ -11,6 +13,8 @@ const HomePage = () => {
       <main>
         <Hero />
         <Features />
+        <AboutUs />
+        <Reviews />
       </main>
 
     </div>
