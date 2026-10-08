@@ -1,62 +1,145 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
-import Navbar from '../components/common/Navbar'
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Button } from '../components/ui/button'
-import { RefreshCcw } from 'lucide-react'
+import { Controller, useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card'
+import { Field, FieldError, FieldLabel } from '../components/ui/field'
 import { Input } from '../components/ui/input'
-import { Label } from '../components/ui/label'
-import CustomButton from '../components/common/CustomButton'
+import { Button } from '../components/ui/button'
+import Navbar from '../components/common/Navbar'
+
+const formSchema = z.object({
+    name: z.string().min(5, "name must be at least 5 characters"),
+    email: z.string().min(5, "Email must be atleast 5 characters"),
+    password: z.string().min(8, "Must be atleast 8 characters"),
+    confirmPassword: z.string().min(8, "Must be atleast 8 characters")
+}).refine(
+    (data) => { return data.password === data.confirmPassword },
+    {
+        message: "Passwords do not match",
+        path: ["confirmPassword"]
+    }
+)
 
 const Register = () => {
+
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: ""
+        }
+    })
+
+    const onSubmit = (data) => {
+        console.log(data);
+    }
+
+
     return (
-        <div>
+        <main>
             <Navbar />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-1/4 mx-auto mt-20">
+                <Card>
 
-            <div>
-                <Card className="w-1/3 mx-auto mt-20">
-                    <CardHeader className="border-b">
-                        <CardTitle className="text-lg">Register to WanderLust</CardTitle>
-                        <CardDescription>Enter your credentials below</CardDescription>
-                        <CardAction>
-                            <Button><RefreshCcw /></Button>
-                        </CardAction>
+                    <CardHeader>
+                        <CardTitle>Register to WanderLust</CardTitle>
+                        <CardDescription>Enter your email and password to continue.</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4 [&>div]:space-y-2">
-                        <div>
-                            <Label>Enter your name</Label>
-                            <Input type={"text"} placeholder="Ram Bahadur" />
-                        </div>
 
-                         <div>
-                            <Label>Enter your email</Label>
-                            <Input type={"email"} placeholder="abc@gmail.com" />
-                        </div>
+                    <CardContent className={"space-y-4"}>
 
-                         <div>
-                            <Label>Enter your password</Label>
-                            <Input type={"password"} placeholder="**********" />
-                        </div>
+                         <Controller
+                            name="name"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor={field.name}>Enter your Full Name</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id={field.name}
+                                        type="text"
+                                        placeholder="Ram Bahadur"
+                                        aria-invalid={fieldState.invalid}
+                                    />
+                                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                </Field>
+                            )}
+                        />
 
-                        <div>
-                            <Label>Confirm your password</Label>
-                            <Input type={"password"} placeholder="**********" />
-                        </div>
+                        <Controller
+                            name="email"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor={field.name}>Enter your Email</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id={field.name}
+                                        type="email"
+                                        placeholder="abc@gmail.com"
+                                        aria-invalid={fieldState.invalid}
+                                    />
+                                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                </Field>
+                            )}
+                        />
+
+                        <Controller
+                            name="password"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor={field.name}>Enter your Password</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id={field.name}
+                                        type="password"
+                                        placeholder="*********"
+                                        aria-invalid={fieldState.invalid}
+                                    />
+                                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                </Field>
+                            )}
+                        />
+
+                        <Controller
+                            name="confirmPassword"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel htmlFor={field.name}>Confirm your Password</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        id={field.name}
+                                        type="password"
+                                        placeholder="*********"
+                                        aria-invalid={fieldState.invalid}
+                                    />
+                                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                </Field>
+                            )}
+                        />
+
+
+
                     </CardContent>
-                    <CardFooter>
-                       <CustomButton text="submit" more="w-full" />
+
+                    <CardFooter className={"grid grid-cols-2 gap-2"}>
+                        <Button variant='outline' type="button">Clear</Button>
+                        <Button type="submit">Submit</Button>
                     </CardFooter>
                 </Card>
+            </form>
+
+            <div className='text-sm text-gray-400 mt-6 text-center'>
+                Do not have an account? 
+                <a className='text-blue-600' href="/register">Register</a>
             </div>
-        </div>
+        </main>
     )
 }
 
-export default Register
+export default Login
