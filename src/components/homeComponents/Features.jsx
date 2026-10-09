@@ -37,7 +37,7 @@ const Features = () => {
                 {
                     data.map((f, index) => {
                         return (
-                            <div className='border border-gray-300 px-4 py-8 rounded text-center bg-white'>
+                            <div key={index} className='border border-gray-300 px-4 py-8 rounded text-center bg-white'>
 
                                 <div className='flex justify-center py-8'>
                                     <f.icon size={50} className='text-orange-500' />

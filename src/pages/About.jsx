@@ -12,12 +12,20 @@ import {
 } from "@/components/ui/card"
 
 const About = () => {
+
+
+  // let count = 0;
+  const [count, setCount] = React.useState(0);
+
   return (
     <div>
       <Navbar />
 
-      <button>click here</button>
-      <Button>Click here</Button>
+<div className='flex justify-center py-20 gap-4'>
+      <button> {count} </button>
+
+      <Button onClick={()=>{setCount(count + 1); console.log(count)}} >Click here</Button>
+    </div>
 
 
       <Card className="w-200">
