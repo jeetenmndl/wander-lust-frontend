@@ -43,6 +43,7 @@ const Register = () => {
 
         try{
             const response = api.post("/auth/register", data);
+            console.log(response);
 
             if(response.status === 201){
                 toast.add({title: "Account created successfully!"});
