@@ -1,5 +1,5 @@
-import { Star } from 'lucide-react'
-import React from 'react'
+import { Quote, Star } from 'lucide-react'
+import { Marquee } from '../ui/marquee'
 
 const reviews = [
   {
@@ -40,35 +40,53 @@ const reviews = [
   },
 ]
 
-const Reviews = () => {
-  return (
-    <section className='bg-orange-50 px-20 py-24'>
-      <h2 className='mb-20 text-center text-5xl font-bold'>What Our Users Say</h2>
+const reviewColumns = [reviews.slice(0, 2), reviews.slice(2, 4), reviews.slice(4, 6)]
 
-      <div className='grid grid-cols-3 gap-6'>
-        {reviews.map((review) => (
-          <article key={review.name} className='rounded border border-gray-300 bg-white px-6 py-8'>
-            <div className='mb-6 flex items-center justify-between'>
-              <h3 className='text-xl font-semibold'>{review.name}</h3>
-              <time className='text-sm text-gray-500'>{review.date}</time>
-            </div>
+const ReviewCard = ({ review }) => (
+  <article className='w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md'>
+    <div className='mb-5 flex items-start justify-between gap-4'>
+      <div className='flex items-center gap-3'>
+        <div className='flex size-11 items-center justify-center rounded-full bg-orange-100 font-bold text-orange-600'>
+          {review.name.split(' ').map((name) => name[0]).join('')}
+        </div>
+        <div>
+          <h3 className='font-semibold text-slate-900'>{review.name}</h3>
+          <time className='text-xs text-slate-500'>{review.date}</time>
+        </div>
+      </div>
+      <Quote size={21} className='text-orange-300' aria-hidden='true' />
+    </div>
 
-            <div className='mb-6 flex gap-1' aria-label={`${review.rating} out of 5 stars`}>
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  size={20}
-                  className={star <= review.rating ? 'fill-orange-500 text-orange-500' : 'text-gray-300'}
-                />
-              ))}
-            </div>
+    <div className='mb-4 flex gap-1' aria-label={`${review.rating} out of 5 stars`}>
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star key={star} size={17} className={star <= review.rating ? 'fill-orange-500 text-orange-500' : 'text-slate-200'} />
+      ))}
+    </div>
 
-            <p className='leading-7 text-gray-600'>{review.review}</p>
-          </article>
+    <blockquote className='text-[15px] leading-7 text-slate-600'>“{review.review}”</blockquote>
+  </article>
+)
+
+const Reviews = () => (
+  <section className='bg-[#fffdf9] px-20 py-24'>
+    <div className='mx-auto max-w-3xl text-center'>
+      <p className='mb-3 text-sm font-bold tracking-[0.2em] text-orange-500 uppercase'>Testimonials</p>
+      <h2 className='text-5xl font-bold text-slate-900'>Loved by our users</h2>
+      <p className='mt-5 text-lg text-slate-600'>Real feedback from people who use our service every day.</p>
+    </div>
+
+    <div className='relative mx-auto mt-14 h-[520px] max-w-6xl overflow-hidden'>
+      <div className='grid h-full grid-cols-3 gap-6'>
+        {reviewColumns.map((column, index) => (
+          <Marquee key={index} pauseOnHover reverse={index === 1} className={index === 1 ? '[--marquee-duration:30s]' : '[--marquee-duration:26s]'}>
+            {column.map((review) => <ReviewCard key={review.name} review={review} />)}
+          </Marquee>
         ))}
       </div>
-    </section>
-  )
-}
+      <div className='pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#fffdf9] to-transparent' />
+      <div className='pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#fffdf9] to-transparent' />
+    </div>
+  </section>
+)
 
 export default Reviews

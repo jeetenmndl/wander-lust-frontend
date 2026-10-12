@@ -7,6 +7,9 @@ import { Field, FieldError, FieldLabel } from '../components/ui/field'
 import { Input } from '../components/ui/input'
 import { Button } from '../components/ui/button'
 import Navbar from '../components/common/Navbar'
+import api from '../api/axios'
+import { toast } from '../components/ui/toast'
+import { useNavigate } from 'react-router-dom'
 
 const formSchema = z.object({
     name: z.string().min(5, "name must be at least 5 characters"),
@@ -23,6 +26,8 @@ const formSchema = z.object({
 
 const Register = () => {
 
+    const navigate = useNavigate();
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -35,6 +40,20 @@ const Register = () => {
 
     const onSubmit = (data) => {
         console.log(data);
+
+        try{
+            const response = api.post("/auth/register", data);
+
+            if(response.status === 201){
+                toast.add({title: "Account created successfully!"});
+                navigate("/login");
+            }else{
+                toast.add({title: "Could not create your account."});
+            }
+        }catch(error){
+            console.log(error.message);
+            toast.add({title: error.message || "Some error occured"})
+        }
     }
 
 
