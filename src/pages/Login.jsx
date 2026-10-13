@@ -7,6 +7,10 @@ import { Field, FieldError, FieldLabel } from '../components/ui/field'
 import { Input } from '../components/ui/input'
 import { Button } from '../components/ui/button'
 import Navbar from '../components/common/Navbar'
+import api from '../api/axios'
+import { toast } from '../components/ui/toast'
+import { useNavigate } from 'react-router-dom'
+import useAuth from '../hooks/useAuth'
 
 const formSchema = z.object({
     email: z.string().min(5, "Email must be atleast 5 characters"),
@@ -14,6 +18,9 @@ const formSchema = z.object({
 })
 
 const Login = () => {
+
+    const navigate = useNavigate();
+    const { onLogin } = useAuth()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -23,8 +30,24 @@ const Login = () => {
         }
     })
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
+
+         try{
+            const response = await api.post("/auth/login", data);
+            console.log(response);
+
+            if(response.status === 200){
+                toast.add({title: "Logged in successfully!"});
+                onLogin(data, response.data)
+                navigate("/dashboard");
+            }else{
+                toast.add({title: "Could not log in."});
+            }
+        }catch(error){
+            console.log(error.message);
+            toast.add({title: error.message || "Some error occured"})
+        }
     }
 
 

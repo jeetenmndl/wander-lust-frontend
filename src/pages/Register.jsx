@@ -38,11 +38,11 @@ const Register = () => {
         }
     })
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
 
         try{
-            const response = api.post("/auth/register", data);
+            const response = await api.post("/auth/register", data);
             console.log(response);
 
             if(response.status === 201){
