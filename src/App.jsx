@@ -7,6 +7,8 @@ import Login from './pages/Login'
 import useAuth from './hooks/useAuth'
 import { jwtDecode } from 'jwt-decode'
 import AppLayout from './layouts/AppLayout'
+import Dashboard from './pages/Dashboard'
+import AddTrip from './pages/trip/AddTrip'
 
 
 const App = () => {
@@ -47,7 +49,8 @@ const App = () => {
 
 
         <Route element={<ProtectedRoutes />}>
-          
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='trips/add' element={<AddTrip />} />
         </Route>
 
       </Routes>
