@@ -8,9 +8,10 @@ import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 import { Button } from '../ui/button'
 import api from '../../api/axios'
-import { toast } from 'sonner'
+
 import { useNavigate } from 'react-router-dom'
 import { X } from 'lucide-react'
+import { toast } from '../ui/toast'
 
 const budgetSchema = z.object({
   total: z.coerce.number().min(1, "Must be atleast 1"),
