@@ -20,7 +20,7 @@ const budgetSchema = z.object({
 
 const formSchema = z.object({
   title: z.string().min(5, "Must be atleast 5 characters"),
-  description: z.string().optional(),
+  description: z.string().min(20, "Must be atleast 20 characters"),
   startDate: z.coerce.date(),
   endDate: z.coerce.date(),
   destinations: z.array(
@@ -61,7 +61,7 @@ const TripForm = ({tripDetails}) => {
     console.log(data);
 
     try {
-      const response = await api.post("/trips", data);
+      const response = await api.post("/trip", data);
 
       if (response.status === 201) {
         toast.success("Trip created successfully");
