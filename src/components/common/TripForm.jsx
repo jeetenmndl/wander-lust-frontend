@@ -64,14 +64,14 @@ const TripForm = ({tripDetails}) => {
       const response = await api.post("/trip", data);
 
       if (response.status === 201) {
-        toast.success("Trip created successfully");
+        toast.add({type: "success", message: "Trip created successfully"});
         navigate("/trips");
       } else {
-        toast.error("Error creating trip.")
+        toast.add({type: "error", message: "Error creating trip."});
         console.log(response);
       }
     } catch (error) {
-      toast.error(error.message || "Error creating trip");
+      toast.add({type: "error", message: error.message || "Error creating trip"});
       console.log(error);
     }
   }
@@ -83,14 +83,14 @@ const TripForm = ({tripDetails}) => {
       const response = await api.patch(`/trips/${tripDetails._id}`, data);
 
       if (response.status === 200) {
-        toast.success("Trip updated successfully");
+         toast.add({type: "success", message: "Trip updated successfully"});
         navigate("/trips");
       } else {
-        toast.error("Error updating trip.")
+        toast.add({type: "error", message: "Error updating trip."});
         console.log(response);
       }
     } catch (error) {
-      toast.error(error.message || "Error updating trip");
+      toast.add({type: "error", message: error.message || "Error updating trip"});
       console.log(error);
     }
   }
