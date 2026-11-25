@@ -2,8 +2,11 @@ import React, { useEffect } from 'react'
 import api from '../../api/axios';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const Trips = () => {
+
+  const navigate = useNavigate();
     const [userTrips, setUserTrips] = React.useState([]);
 
     useEffect(()=>{
@@ -31,7 +34,8 @@ const Trips = () => {
             <div>No trips to show. Create a new trip.</div> :
             userTrips.map((t)=>{
               return (
-                <Card>
+                <Card onClick={()=>{navigate(`/trips/${t._id}`)}}>
+                  
                   <CardHeader className="border-b">
                     <CardTitle> {t.title} </CardTitle>
                     <CardDescription> {t.startDate} - {t.endDate}</CardDescription>
